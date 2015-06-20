@@ -49,5 +49,19 @@ window.addEventListener("DOMContentLoaded", function() {
 }, false);
 
 </script>
+// Twilio Credentials 
+var accountSid = 'ACdcf915612ca060f3876404bf3827bc40'; 
+var authToken = '308ecd3df6a62236b4ef65f7c48f7e7c'; 
+ 
+//require the Twilio module and create a REST client 
+var client = require('twilio')(accountSid, authToken); 
+ 
+client.messages.create({ 
+	to: "+4915150963501", 
+	from: "+4915735981912", 
+	body: "Thank you for using FacePay. Your PayPal was NATURALLY charged.",   
+}, function(err, message) { 
+	console.log(message.sid); 
+});
 </body>
 </html> 

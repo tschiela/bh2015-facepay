@@ -9454,6 +9454,9 @@ body {
 main {
   overflow: auto;
   padding-bottom: 125px;
+  padding-top: 16px;
+  padding-left: 16px;
+  padding-right: 16px;
 }
 .ts-container {
   max-width: 760px;
@@ -9510,7 +9513,7 @@ main {
   margin: 0;
 }
 .card + .card {
-  border-top: 1px solid #e8e8e8;
+  border-top: 1px solid #e2e2e2;
 }
 .ts-list {
   padding-left: 16px;
@@ -9536,6 +9539,42 @@ main {
   color: #fff;
   background: #009cde;
   border-radius: 2px;
+}
+.btn-action {
+  position: relative;
+  display: inline-block;
+  min-width: 32px;
+  height: 32px;
+  vertical-align: middle;
+  color: #646464;
+  line-height: 32px;
+  background: #fff;
+  border: 0;
+  border-radius: 2px;
+}
+.btn-action.large {
+  min-width: 128px;
+}
+.btn-action.primary {
+  background: #009cde;
+  color: #fff;
+}
+.btn-action.danger {
+  background: #f44336;
+  color: #fff;
+}
+.btn-action.raised {
+  transition: box-shadow 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+  transition-delay: 0.2s;
+  box-shadow: 0 2px 5px 0 rgba(0, 0, 0, 0.26);
+}
+.btn-action.raised:active {
+  box-shadow: 0 8px 17px 0 rgba(0, 0, 0, 0.2);
+  transition-delay: 0s;
+}
+.btn-action:disabled {
+  background: #e2e2e2;
+  color: #777777;
 }
 .sidenav {
   position: absolute;
@@ -9594,8 +9633,8 @@ body.sidenav-open .sidenav-backdrop {
   padding-top: 4px;
   padding-bottom: 8px;
   line-height: 70px;
-  border-bottom: 1px solid #e8e8e8;
-  font: italic bold 24px/55px 'Helvetica Neue', Helvetica, Arial, sans-serif;
+  border-bottom: 1px solid #e2e2e2;
+  font: italic bold 40px/55px 'Helvetica Neue', Helvetica, Arial, sans-serif;
 }
 .sidenav-header .branch-1 {
   color: #009cde;
@@ -9732,4 +9771,31 @@ header.accent {
   .button-collapse {
     display: none;
   }
+}
+.capture {
+  position: relative;
+  width: 450px;
+}
+.btn-capture {
+  position: absolute;
+  left: 50%;
+  margin-left: -80px;
+  width: 160px;
+  bottom: 16px;
+}
+.ng-camera-countdown {
+  position: absolute;
+  color: #009cde;
+  top: 16px;
+  left: 16px;
+  font-size: 72px;
+  font-weight: bold;
+  opacity: .7;
+}
+#canvas {
+  display: none;
+}
+.lastCapture {
+  position: absolute;
+  top: 0;
 }

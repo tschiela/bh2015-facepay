@@ -14,7 +14,11 @@ var jsSources = [
   path.join(nodeModules, 'jquery', 'dist', 'jquery.js'),
   path.join(nodeModules, 'bootstrap', 'dist', 'js', 'bootstrap.js'),
   path.join(nodeModules, 'node-waves', 'dist', 'waves.js'),
-  path.join(sources.js, 'script.js')
+  path.join(nodeModules, 'angular', 'angular.js'),
+  path.join(nodeModules, 'angular-ui-router', 'build', 'angular-ui-router.js'),
+  path.join(sources.js, 'vendor', 'angular-camera.js'),
+  path.join(sources.js, 'script.js'),
+  path.join(sources.js, 'app', '**', '*.js')
 ];
 
 module.exports = function (grunt) {
@@ -36,7 +40,7 @@ module.exports = function (grunt) {
         tasks: ['concat']
       },
       templates: {
-        files: path.join('dist', '*.html')
+        files: path.join('dist', '**', '*.html')
       }
     },
     clean: [path.join(dist, 'css'), path.join(dist, 'js')],

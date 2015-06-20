@@ -1,0 +1,14 @@
+<div class="row">
+  <div class="col-xs-12 col-sm-6">
+    <div class="capture">
+      <video id="video" width="480" height="360" autoplay></video>
+      <canvas id="canvas" width="480" height="360"></canvas>
+      <img class="lastCapture" ng-src="{{user.photo}}" ng-show="captured">
+      <button class="btn-capture btn-action btn-raised primary" ng-click="takeSnapshot()" ng-show="!captured"><i class="zmdi zmdi-face"></i> Capture Face</button>
+      <button class="btn-capture btn-action btn-raised danger" ng-click="removeSnapshot()" ng-show="captured">Remove Image</button>
+    </div>
+  </div>
+  <div class="col-xs-12 col-sm-4">
+
+  </div>
+</div>

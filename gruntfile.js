@@ -5,7 +5,7 @@ var path = require('path');
 
 var sourceFolder = path.join('src');
 var nodeModules = path.join('node_modules');
-var dist = path.join('dist');
+var dist = path.join('server', 'public');
 var sources = {
   less: path.join(sourceFolder, 'less'),
   js: path.join(sourceFolder, 'js')
@@ -16,7 +16,7 @@ var jsSources = [
   path.join(nodeModules, 'node-waves', 'dist', 'waves.js'),
   path.join(nodeModules, 'angular', 'angular.js'),
   path.join(nodeModules, 'angular-ui-router', 'build', 'angular-ui-router.js'),
-  path.join(sources.js, 'vendor', 'angular-camera.js'),
+  path.join(nodeModules, 'angular-local-storage', 'dist', 'angular-local-storage.js'),
   path.join(sources.js, 'script.js'),
   path.join(sources.js, 'app', '**', '*.js')
 ];
@@ -40,7 +40,7 @@ module.exports = function (grunt) {
         tasks: ['concat']
       },
       templates: {
-        files: path.join('dist', '**', '*.html')
+        files: path.join('server', 'public', '**', '*.html')
       }
     },
     clean: [path.join(dist, 'css'), path.join(dist, 'js')],
@@ -50,7 +50,7 @@ module.exports = function (grunt) {
           compress: false
         },
         files: {
-          "dist/css/style.css": path.join(sources.less, 'index.less')
+          "server/public/css/style.css": path.join(sources.less, 'index.less')
         }
       },
       production: {
@@ -63,7 +63,7 @@ module.exports = function (grunt) {
           ]
         },
         files: {
-          "dist/css/style.css": path.join(sources.less, 'index.less')
+          "server/public/css/style.css": path.join(sources.less, 'index.less')
         }
       }
     },
@@ -82,7 +82,7 @@ module.exports = function (grunt) {
           mangle: true
         },
         files: {
-          'dist/js/app.min.js': [path.join(dist, 'js', 'app.min.js')]
+          'server/public/js/app.min.js': [path.join(dist, 'js', 'app.min.js')]
         }
       }
     }

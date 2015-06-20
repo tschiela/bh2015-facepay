@@ -2,10 +2,10 @@
 
   var module = angular.module('facepay', [
     'ui.router',
-    'omr.directives'
+    'LocalStorageModule'
   ]);
 
-  module.config(function($stateProvider, $urlRouterProvider) {
+  module.config(function($stateProvider, $urlRouterProvider, localStorageServiceProvider) {
     $urlRouterProvider.otherwise("/myFacePay");
 
     $stateProvider
@@ -22,6 +22,7 @@
         data: {
           title: 'Payment Accounts'
         },
+        controller: 'PaymentAccountsController',
         templateUrl: "partials/paymentAccounts.html"
       })
       .state('billingHistory', {
@@ -30,7 +31,14 @@
           title: 'Billing History'
         },
         templateUrl: "partials/billingHistory.html"
-      })
+      });
+
+    localStorageServiceProvider
+      .setPrefix('fp');
+
+    localStorageServiceProvider
+      .setStorageType('localStorage');
+
   });
 
 })(window.angular);

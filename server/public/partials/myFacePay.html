@@ -1,0 +1,32 @@
+<div class="row">
+  <div class="col-xs-12 col-sm-6">
+    <div class="capture">
+      <video id="video" width="480" height="360" autoplay></video>
+      <canvas id="canvas" width="480" height="360"></canvas>
+      <img class="lastCapture" ng-src="{{user.photo}}" ng-show="captured">
+      <button class="btn-capture btn-action btn-raised primary" ng-click="takeSnapshot()" ng-show="!captured"><i class="zmdi zmdi-face"></i> Capture Face</button>
+      <button class="btn-capture btn-action btn-raised danger" ng-click="removeSnapshot()" ng-show="captured">Remove Image</button>
+    </div>
+  </div>
+  <div class="col-xs-12 col-sm-4">
+    <form>
+      <div class="form-group">
+        <label for="name">Firstname</label>
+        <input type="text" class="form-control" id="name" ng-model="user.firstname">
+      </div>
+      <div class="form-group">
+        <label for="lastname">Lastname</label>
+        <input type="text" class="form-control" id="lastname" ng-model="user.lastname">
+      </div>
+      <div class="form-group">
+        <label for="phone">Phone</label>
+        <input type="text" class="form-control" id="phone" ng-model="user.phone">
+      </div>
+      <div class="form-group">
+        <label for="phone">EMail</label>
+        <input type="email" class="form-control" id="email" ng-model="user.email">
+      </div>
+      <button type="submit" class="btn-action btn-raised primary" ng-click="save()"><i class="zmdi zmdi-check"></i> Save</button>
+    </form>
+  </div>
+</div>

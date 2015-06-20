@@ -4,8 +4,22 @@
 
   module.controller('MyFacePayController', [
     '$scope',
-    function($scope){
+    '$http',
+    'UserStorage',
+    function($scope, $http, UserStorage){
       $scope.captured = false;
+      $scope.user = {
+        photo: ''
+      };
+      $scope.storedUser = UserStorage.get();
+
+      if($scope.storedUser && $scope.storedUser.input){
+        $scope.user = $scope.storedUser.input;
+
+        if($scope.user.photo){
+          $scope.captured = true;
+        }
+      }
 
       // Grab elements, create settings, etc.
       var canvas = document.getElementById("canvas"),
@@ -37,13 +51,30 @@
 
       $scope.takeSnapshot = function(){
         context.drawImage(video, 0, 0, 480, 360);
-        $scope.capturedPhotoData = canvas.toDataURL("image/jpeg");
+        $scope.user.photo = canvas.toDataURL("image/jpeg");
         $scope.captured = true;
       };
 
       $scope.removeSnapshot = function(){
-        $scope.capturedPhotoData = '';
+        $scope.user.photo = '';
         $scope.captured = false;
+      };
+
+      $scope.save = function(){
+
+
+
+        $http.post('/createCustomer', $scope.user).then(
+          function(response){
+            UserStorage.save({
+              input: $scope.user,
+              customer: response.data
+            });
+          },
+          function(error){
+            console.error(error);
+          }
+        );
       };
     }
   ]);

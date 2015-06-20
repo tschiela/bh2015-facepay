@@ -181,3 +181,20 @@ main {
   }
 }
 
+
+.form-control {
+  border: 0;
+  border-bottom: 1px solid @fp-colors-grey-2;
+  border-radius: 0;
+  background: none;
+  .box-shadow(none);
+
+  &:focus {
+    .box-shadow(none);
+    border-bottom: 2px solid @fp-primary;
+  }
+}
+
+label {
+  font-weight: 300;
+}

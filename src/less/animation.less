@@ -1,0 +1,48 @@
+.createDelayClasses(@min, @max, @step) when (@min <= @max)  {
+  .delay-@{min}{
+    .transition-delay(unit(@min, ms));
+  }
+
+  .createDelayClasses(@min + @step, @max, @step)
+}
+
+.createDelayClasses(100, 1000, 100);
+
+
+.createDurationClasses(@min, @max, @step) when (@min <= @max)  {
+  .duration-@{min}{
+    .transition-duration(unit(@min, ms));
+  }
+
+  .createDurationClasses(@min + @step, @max, @step)
+}
+
+.createDurationClasses(100, 2000, 100);
+
+.card-animated {
+  opacity: .5;
+
+  &:nth-child(1){
+    .transform(translate3d(0, @fp-padding-1, 0));
+  }
+
+  &:nth-child(2){
+    .transform(translate3d(0, @fp-padding-1*2, 0));
+  }
+
+  &:nth-child(3){
+    .transform(translate3d(0, @fp-padding-1*3, 0));
+  }
+
+  &:nth-child(4){
+    .transform(translate3d(0, @fp-padding-1*4, 0));
+  }
+
+  .transition-property(~"opacity, transform");
+  .transition-duration(100ms);
+
+  &.in-view {
+    opacity: 1;
+    .transform(translate3d(0, 0, 0));
+  }
+}

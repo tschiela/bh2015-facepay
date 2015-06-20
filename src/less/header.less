@@ -1,0 +1,27 @@
+header {
+  min-height: @fp-header-height;
+  padding-left: @fp-padding-2;
+  color: #fff;
+  line-height: @fp-header-height;
+  background: @fp-primary;
+
+  &.accent {
+    z-index: @fp-header-accent-zIndex;
+    .box-shadow(0 3px 3px 0 rgba(0,0,0,0.16));
+  }
+}
+
+.button-collapse {
+  float: left;
+  height: @fp-header-collapse-btn-width;
+  width: @fp-header-collapse-btn-width;
+  margin-top: (@fp-header-height - @fp-header-collapse-btn-width) / 2;
+  margin-right: @fp-padding-2;
+  color: #fff;
+  text-align: center;
+  line-height: @fp-header-collapse-btn-width;
+  
+  @media @fp-breakpoint-l{
+    display: none;
+  }
+}

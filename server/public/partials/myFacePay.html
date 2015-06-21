@@ -26,7 +26,7 @@
         <label for="phone">EMail</label>
         <input type="email" class="form-control" id="email" ng-model="user.email">
       </div>
-      <button type="submit" class="btn-action btn-raised primary" ng-click="save()"><i class="zmdi zmdi-check"></i> Save</button>
+      <button type="submit" class="btn-action btn-raised primary" ng-click="save()" ng-disabled="showLoading"><i class="zmdi" ng-class="{'zmdi-check': !showLoading, 'zmdi-refresh': showLoading, 'zmd-spin': showLoading}"></i> Save</button>
     </form>
   </div>
 </div>

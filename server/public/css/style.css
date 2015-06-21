@@ -9817,3 +9817,11 @@ header.accent {
   position: absolute;
   top: 0;
 }
+.subtotal {
+  font-weight: 700;
+  color: #009cde;
+  font-size: 16px;
+}
+.subline {
+  border-top: 2px solid #e2e2e2;
+}

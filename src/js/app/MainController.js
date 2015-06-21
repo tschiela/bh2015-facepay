@@ -1,6 +1,6 @@
 (function(angular){
 
-  var module = angular.module('facepay');
+  var module = angular.module('facepay-main', []);
 
   module.controller('MainController', [
     '$rootScope',

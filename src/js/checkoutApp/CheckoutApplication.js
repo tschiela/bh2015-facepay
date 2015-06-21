@@ -1,8 +1,11 @@
 (function(angular){
 
-  var module = angular.module('facepay-ceckout', [
+  var module = angular.module('facepay-checkout', [
     'ui.router',
-    'LocalStorageModule'
+    'LocalStorageModule',
+    'facepay-main',
+    'facepay-storage',
+    'facepay-kairos'
   ]);
 
   module.config(function($stateProvider, $urlRouterProvider, localStorageServiceProvider) {
@@ -14,8 +17,8 @@
         data: {
           title: 'Checkout'
         },
-        controller: 'MyFacePayController',
-        templateUrl: "partials/myFacePay.html"
+        controller: 'CheckoutController',
+        templateUrl: "partials/checkout.html"
       });
 
     localStorageServiceProvider

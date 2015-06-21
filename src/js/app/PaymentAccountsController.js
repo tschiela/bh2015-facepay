@@ -5,45 +5,26 @@
 
   module.controller('PaymentAccountsController', [
     '$scope',
-    'CustomerApi',
-    function($scope, CustomerApi){
-
-      CustomerApi.getCustomerId(function(error, response){
-        if(response && response.data && response.data.clientToken){
-          braintree.setup(response.data.clientToken, "paypal", {
-            container: "paypal-container",
-            singleUse: false,
-            onPaymentMethodReceived: function (obj) {
-              var storedUser = UserStorage.get(key);
-              storedUser.nonce = obj.nonce;
-              UserStorage.set(key, storedUser);
-            }
-          });
-        }
-      });
-    }
-  ]);
-
-  module.factory('CustomerApi', [
-    '$http',
     'UserStorage',
-    function($http, UserStorage){
-      var storedUser = UserStorage.get();
+    'CustomerApi',
+    function($scope, UserStorage, CustomerApi){
+      var customer = UserStorage.getCurrentCustomer();
 
-      return {
-        getCustomerId: function(callback){
-          $http.get('/getClientToken/' + storedUser.customer.id).then(
-            function(response){
-              callback(null, response);
-            },
-            function(error){
-              callback(error);
-            }
-          );
-        }
+      if(customer && customer.customer && customer.customer.id){
+        CustomerApi.getCustomerId(customer.customer.id, function(error, response){
+          if(response && response.data && response.data.clientToken){
+            braintree.setup(response.data.clientToken, "paypal", {
+              container: "paypal-container",
+              singleUse: false,
+              onPaymentMethodReceived: function (obj) {
+                customer.nonce = obj.nonce;
+                UserStorage.addCustomer(customer);
+              }
+            });
+          }
+        });
       }
     }
   ]);
-
 
 })(window.angular);

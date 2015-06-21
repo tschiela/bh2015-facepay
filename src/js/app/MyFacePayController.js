@@ -6,20 +6,22 @@
     '$scope',
     '$http',
     'UserStorage',
-    function($scope, $http, UserStorage){
+    'KairosService',
+    function($scope, $http, UserStorage, KairosService){
       $scope.captured = false;
       $scope.user = {
         photo: ''
       };
-      $scope.storedUser = UserStorage.get();
+      $scope.showLoading = false;
 
-      if($scope.storedUser && $scope.storedUser.input){
-        $scope.user = $scope.storedUser.input;
-
-        if($scope.user.photo){
-          $scope.captured = true;
-        }
-      }
+      //$scope.storedUser = UserStorage.get();
+      //if($scope.storedUser && $scope.storedUser.input){
+      //  $scope.user = $scope.storedUser.input;
+      //
+      //  if($scope.user.photo){
+      //    $scope.captured = true;
+      //  }
+      //}
 
       // Grab elements, create settings, etc.
       var canvas = document.getElementById("canvas"),
@@ -61,18 +63,25 @@
       };
 
       $scope.save = function(){
-
-
+        var photoData = $scope.user.photo.replace("data:image/jpeg;base64,", "").replace("data:image/jpg;base64,", "");
+        $scope.showLoading = true;
 
         $http.post('/createCustomer', $scope.user).then(
-          function(response){
-            UserStorage.save({
+          function(btResponse){
+            UserStorage.addCustomer({
               input: $scope.user,
-              customer: response.data
+              customer: btResponse.data
+            });
+
+            KairosService.enroll(photoData, btResponse.data.id, function(kResponse){
+              console.log('saved id and image data ' + btResponse.data.id + ' to database');
+              $scope.showLoading = false;
+              $scope.$apply();
             });
           },
           function(error){
             console.error(error);
+            $scope.showLoading = false;
           }
         );
       };

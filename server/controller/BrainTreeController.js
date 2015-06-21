@@ -11,3 +11,17 @@ exports.getClientToken = function(req, res){
     }
   });
 };
+
+exports.createPayment = function(req, res){
+  BrainTreeConnection.paymentMethod.create({
+    customerId: req.params.customerId,
+    paymentMethodNonce: req.params.nonce
+  }, function (error, response) {
+    if(error){
+      res.status(500).json(error);
+    } else {
+      console.log(response);
+      res.status(200).json(response);
+    }
+  });
+};

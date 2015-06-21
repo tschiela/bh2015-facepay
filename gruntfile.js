@@ -18,7 +18,9 @@ var jsSources = [
   path.join(nodeModules, 'angular-ui-router', 'build', 'angular-ui-router.js'),
   path.join(nodeModules, 'angular-local-storage', 'dist', 'angular-local-storage.js'),
   path.join(sources.js, 'script.js'),
-  path.join(sources.js, 'app', '**', '*.js')
+  path.join(sources.js, 'vendor', '**', '*.js'),
+  path.join(sources.js, 'app', '**', '*.js'),
+  path.join(sources.js, 'checkoutApp', '**', '*.js')
 ];
 
 module.exports = function (grunt) {

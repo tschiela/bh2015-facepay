@@ -38,16 +38,6 @@
               callback(error);
             }
           );
-        },
-        createPayment: function(nonce, customerId, callback){
-          $http.get('/createPayment/' + customerId + '/' + nonce).then(
-            function(response){
-              callback(null, response);
-            },
-            function(error){
-              callback(error);
-            }
-          );
         }
       }
     }

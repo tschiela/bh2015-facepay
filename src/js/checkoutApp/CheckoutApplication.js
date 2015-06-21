@@ -5,11 +5,12 @@
     'LocalStorageModule',
     'facepay-main',
     'facepay-storage',
-    'facepay-kairos'
+    'facepay-kairos',
+    'facepay-braintree'
   ]);
 
   module.config(function($stateProvider, $urlRouterProvider, localStorageServiceProvider) {
-    $urlRouterProvider.otherwise("/myFacePay");
+    $urlRouterProvider.otherwise("/");
 
     $stateProvider
       .state('checkout', {

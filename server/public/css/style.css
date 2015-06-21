@@ -9554,6 +9554,10 @@ main {
 }
 .btn-action.large {
   min-width: 128px;
+  height: auto;
+  padding-top: 16px;
+  padding-bottom: 16px;
+  font-weight: 700;
 }
 .btn-action.primary {
   background: #009cde;
@@ -9797,7 +9801,7 @@ header.accent {
 .btn-capture {
   position: absolute;
   left: 50%;
-  margin-left: -80px;
+  margin-left: -60px;
   width: 160px;
   bottom: 16px;
 }
@@ -9812,6 +9816,11 @@ header.accent {
 }
 #canvas {
   display: none;
+}
+#overlay {
+  position: absolute;
+  top: 0;
+  left: 0;
 }
 .lastCapture {
   position: absolute;

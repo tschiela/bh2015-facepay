@@ -25,13 +25,89 @@
     }
   };
 
+  // drawing method
+  var myDrawMethod = function (face, global_image_data) {
+    console.log(face);
+
+    var canvas = document.getElementById('overlay');
+    var context = canvas.getContext('2d');
+    context.clearRect(0, 0, 360, 480);
+    var imageObj = new Image();
+    imageObj.onload = function()
+    {
+      context.drawImage(imageObj, 0, 0);
+      // draw face box
+      context.beginPath();
+      context.rect(face.topLeftX, face.topLeftY, face.width, face.height);
+      context.lineWidth = 4;
+      context.strokeStyle = '#009CDE';
+      context.stroke();
+      // draw left eye
+      context.beginPath();
+      context.moveTo(face.leftEyeCornerLeftX, face.leftEyeCornerLeftY);
+      context.lineTo(face.leftEyeCornerRightX, face.leftEyeCornerRightY);
+      context.stroke();
+      context.beginPath();
+      context.moveTo(face.leftEyeCenterX, (face.leftEyeCenterY + (face.height / 25)));
+      context.lineTo(face.leftEyeCenterX, (face.leftEyeCenterY - (face.height / 25)));
+      context.stroke();
+      // draw right eye
+      context.beginPath();
+      context.moveTo(face.rightEyeCornerLeftX, face.rightEyeCornerLeftY);
+      context.lineTo(face.rightEyeCornerRightX, face.rightEyeCornerRightY);
+      context.stroke();
+      context.beginPath();
+      context.moveTo(face.rightEyeCenterX, (face.rightEyeCenterY + (face.height / 25)));
+      context.lineTo(face.rightEyeCenterX, (face.rightEyeCenterY - (face.height / 25)));
+      context.stroke();
+      // left eyebrow
+      context.beginPath();
+      context.moveTo(face.leftEyeBrowLeftX, face.leftEyeBrowLeftY);
+      context.lineTo(face.leftEyeBrowMiddleX, face.leftEyeBrowMiddleY);
+      context.stroke();
+      context.beginPath();
+      context.moveTo(face.leftEyeBrowMiddleX, face.leftEyeBrowMiddleY);
+      context.lineTo(face.leftEyeBrowRightX, face.leftEyeBrowRightY);
+      context.stroke();
+      // right eyebrow
+      context.beginPath();
+      context.moveTo(face.rightEyeBrowLeftX, face.rightEyeBrowLeftY);
+      context.lineTo(face.rightEyeBrowMiddleX, face.rightEyeBrowMiddleY);
+      context.stroke();
+      context.beginPath();
+      context.moveTo(face.rightEyeBrowMiddleX, face.rightEyeBrowMiddleY);
+      context.lineTo(face.rightEyeBrowRightX, face.rightEyeBrowRightY);
+      context.stroke();
+      // draw mouth
+      context.beginPath();
+      context.moveTo(face.lipCornerLeftX, face.lipCornerLeftY);
+      context.lineTo(face.lipLineMiddleX, face.lipLineMiddleY);
+      context.stroke();
+      context.beginPath();
+      context.moveTo(face.lipLineMiddleX, face.lipLineMiddleY);
+      context.lineTo(face.lipCornerRightX, face.lipCornerRightY);
+      context.stroke();
+      // draw nose
+      context.beginPath();
+      context.moveTo(face.nostrilLeftSideX, face.nostrilLeftSideY);
+      context.lineTo(face.nostrilLeftHoleBottomX, face.nostrilLeftHoleBottomY);
+      context.stroke();
+      context.beginPath();
+      context.moveTo(face.nostrilRightSideX, face.nostrilRightSideY);
+      context.lineTo(face.nostrilRightHoleBottomX, face.nostrilRightHoleBottomY);
+      context.stroke();
+    };
+    imageObj.src = 'data:image/jpeg;base64,' + global_image_data;
+  };
+
   module.controller('CheckoutController', [
     '$scope',
     '$http',
     '$timeout',
     'UserStorage',
     'KairosService',
-    function($scope, $http, $timeout, UserStorage, KairosService){
+    'BrainTreeService',
+    function($scope, $http, $timeout, UserStorage, KairosService, BrainTreeService){
       $scope.captured = false;
       $scope.customer = {
         photo: ''
@@ -39,8 +115,9 @@
       $scope.products = [];
       $scope.total = 0;
       $scope.vat = 0;
-      $scope.overalTotal = 0;
+      $scope.subtotal = 0;
       $scope.showLoading = false;
+      $scope.accuracy = 0;
       var _timeout;
 
       var calcTotal = function(){
@@ -49,7 +126,7 @@
         });
 
         $scope.vat = $scope.total*0.19;
-        $scope.overalTotal = $scope.total + $scope.vat;
+        $scope.subtotal = $scope.total + $scope.vat;
       };
 
       $scope.scanProduct = function(event){
@@ -132,17 +209,43 @@
         var photoData = $scope.customer.photo.replace("data:image/jpeg;base64,", "").replace("data:image/jpg;base64,", "");
         $scope.showLoading = true;
 
+        // get face geometry
+        KairosService.detect(photoData, function(response){
+          var success = JSON.parse(response.responseText);
+
+          if(success && success.images && success.images[0] && success.images[0].faces && success.images[0].faces[0]){
+            myDrawMethod(success.images[0].faces[0], photoData);
+          }
+        });
+
         KairosService.recognize(photoData, function(kResponse){
           //console.log('recognize user with id  ' + kResponse.data.id + ' to database');
           var success = JSON.parse(kResponse.responseText);
 
-          if(success && success.images && success.images[0]){
-            var id = success.images[0].transaction.subject;
+          if(success && success.images && success.images[0] && success.images[0].candidates && success.images[0].candidates[0]){
+            var keys = Object.keys(success.images[0].candidates[0]);
+            var id;
 
-            var storedCustomer = UserStorage.getCustomer(id);
-            if(storedCustomer.nonce){
+            keys.forEach(function(key){
+              if(key != 'enrollment_timestamp'){
+                id = key;
+                $scope.accuracy = parseFloat(success.images[0].candidates[0][id])*100;
+                $scope.accuracy = $scope.accuracy.toFixed(2);
+                console.log(success);
+              }
+            });
 
-            }
+            $scope.storedCustomer = UserStorage.getCustomer(id).input;
+
+            BrainTreeService.createTransaction(id, $scope.subtotal, function(error, response){
+              if(error){
+                // show error
+              } else {
+                //console.log(response);
+              }
+            });
+          } else {
+            // show error
           }
 
           $scope.showLoading = false;

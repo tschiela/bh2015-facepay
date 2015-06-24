@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" ng-app="facepay">
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -7,31 +7,32 @@
   <title>Face Pay :-) >>> $</title>
   <link rel="stylesheet" href="css/style.css">
 </head>
-<body>
+<body ng-controller="MainController">
 <div class="sidenav flex-col">
   <div class="sidenav-header">
     <span class="branch-1">Face</span><span class="branch-2">Pay</span>
+    <!--<img src="img/facepaylogo2.png">-->
   </div>
   <ul id="menu-primary" class="sidenav-links">
-    <li ui-sref-active="active"><a href="register.html" target="_blank" class="waves-effect"
-                                   ui-sref="checkout">Register</a></li>
-    <li ui-sref-active="active"><a href="checkout.html" target="_blank" class="waves-effect"
-                                   ui-sref="checkout">Checkout</a></li>
+    <li ui-sref-active="active"><a class="waves-effect" ui-sref="myFacePay">My FacePay</a></li>
+    <li ui-sref-active="active"><a class="waves-effect" ui-sref="paymentAccounts">Payment Accounts</a></li>
+    <li ui-sref-active="active"><a class="waves-effect" ui-sref="billingHistory">Billing History</a></li>
+    <li ui-sref-active="active"><a class="waves-effect">Logout</a></li>
   </ul>
 </div>
 <div class="content flex-col">
   <header>
     <a href="#" class="button-collapse top-nav waves-effect waves-light circle"><i class="zmdi zmdi-menu"></i></a>
 
-    <div class="title">FacePay is the world's first face recognition payment system</div>
+    <div class="title">{{title}}</div>
   </header>
   <main>
-    <iframe width="560" height="315" src="https://www.youtube.com/embed/fyEU-DKIJso?rel=0&amp;showinfo=0"
-            frameborder="0" allowfullscreen></iframe>
-    <p>FacePay is the world's first face recognition payment system</p>
+    <div ui-view></div>
   </main>
   <footer></footer>
 </div>
+<script src="https://js.braintreegateway.com/v2/braintree.js"></script>
 <script src="js/app.min.js"></script>
+<!--<script src="//localhost:35729/livereload.js"></script>-->
 </body>
 </html>

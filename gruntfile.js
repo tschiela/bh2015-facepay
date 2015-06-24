@@ -81,7 +81,7 @@ module.exports = function (grunt) {
     uglify: {
       app: {
         options: {
-          mangle: true
+          mangle: false
         },
         files: {
           'server/public/js/app.min.js': [path.join(dist, 'js', 'app.min.js')]

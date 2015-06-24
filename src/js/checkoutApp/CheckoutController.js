@@ -21,7 +21,7 @@
     product_4260107220015: {
       number: '4260107220015',
       price: 1.60,
-      name: 'fritz-kola'
+      name: 'fritz Cola'
     }
   };
 

@@ -68,6 +68,8 @@
 
         $http.post('/createCustomer', $scope.user).then(
           function(btResponse){
+            console.log(btResponse);
+
             UserStorage.addCustomer({
               input: $scope.user,
               customer: btResponse.data

@@ -5,7 +5,8 @@ exports.create = function(req, res){
     firstName: req.body.firstname,
     lastName: req.body.lastname,
     email: req.body.email,
-    phone: req.body.phone
+    phone: req.body.phone,
+    paymentMethodNonce: 'fake-valid-nonce'
   }, function (error, result) {
     if(error){
       res.status(500).json(error);
